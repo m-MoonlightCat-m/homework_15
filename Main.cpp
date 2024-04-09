@@ -4,52 +4,30 @@
 using namespace std;
 int x;
 
-class Game
+class Player
 {
 public:
-	Game() : Name(), score()
-	{
-
+	void SetPoints(int _points) 
+	{ 
+		points = _points; 
 	}
-	Game(string _Name, int _score) : Name(_Name), score(_score)
+	void SetName(string _name)
 	{
-
+		Name = _name;
 	}
-
-	void Show()
+	int GetPoints()
 	{
-		cout << Name << ' ' << score;
+		return points;
+	}
+	string GetName()
+	{
+		return Name;
 	}
 private:
 	string Name;
-	int score;
+	int points = 0;
 };
 
-void ScoreSet()
-{
-	int* a = new int[x];
-	for (int i = 0; i < x; i++)
-	{
-		cin >> a[i];
-	}
-
-	for (int i = 0; i < x; i++)
-	{
-		int j = i - 1;
-		while (j >= 0 && a[j] > a[j + 1])
-		{
-			swap(a[j], a[j + 1]);
-			j--;
-		}
-	}
-
-	for (int i = 0; i < x; i++)
-	{
-		cout << a[i] << " ";
-	}
-		
-	delete[] a; 
-}
 
 int main()
 {
@@ -58,6 +36,39 @@ int main()
 	cout << "Введите количество игроков: ";
 	cin >> x;
 
-	ScoreSet();
+
+	Player** players = new Player * [x];
+
+	int p;
+	string n;
+
+
+	for (int i = 0; i < x; ++i)
+
+	{
+		players[i] = new Player();
+		cout << "Имя игрока: ";
+		cin >> n;
+		players[i]->SetName(n);
+		cout << "Количество очков: ";
+		cin >> p;
+		players[i]->SetPoints(p);
+	}
 	
+	for (int i = 0; i < x; i++)
+	{
+		int j = i - 1;
+		while (j >= 0 && players[j]->GetPoints() > players[j + 1]->GetPoints())
+		{
+			swap(players[j], players[j + 1]);
+			j--;
+		}
+	}
+
+	for (int i = 0; i < x; i++)
+	{
+		cout << players[i]->GetName() << " " << players[i]->GetPoints() << "\n";
+	}
+
+	delete[] players;
 }
